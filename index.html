@@ -202,6 +202,26 @@
             background: rgba(255, 255, 255, 0.05);
         }
 
+        /* Language Toggle */
+        .lang-toggle {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            color: var(--text);
+            padding: 0.45rem 0.8rem;
+            border-radius: 9999px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+        }
+
+        .lang-toggle:hover {
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.07);
+        }
+
         /* Main Content */
         .main-content {
             max-width: 1400px;
@@ -230,6 +250,27 @@
             color: var(--text-light);
             max-width: 700px;
             margin: 0 auto 2rem;
+        }
+
+        /* Card entry animation */
+        .content-card {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            cursor: pointer;
+            position: relative;
+            opacity: 0;
+            transform: translateY(8px);
+        }
+
+        .content-card.show {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.45s cubic-bezier(0.2,0,0.2,1), transform 0.45s cubic-bezier(0.2,0,0.2,1);
         }
 
         /* Content Grid */
@@ -528,10 +569,13 @@
             justify-content: center;
             z-index: 2000;
             padding: 1rem;
+            opacity: 0;
+            transition: opacity 240ms ease;
         }
 
         .modal-overlay.active {
             display: flex;
+            opacity: 1;
         }
 
         .modal-content {
@@ -541,7 +585,13 @@
             border: 1px solid rgba(255, 255, 255, 0.12);
             border-radius: var(--radius-lg);
             padding: 2.5rem;
-            animation: modalSlideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateY(18px) scale(0.995);
+            transition: transform 260ms cubic-bezier(0.2,0,0.2,1), box-shadow 260ms ease;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: translateY(0) scale(1);
         }
 
         @keyframes modalSlideUp {
@@ -555,6 +605,21 @@
             }
         }
 
+        .btn-google {
+            background: linear-gradient(45deg, #fff, #f3f3f3);
+            color: var(--dark-bg);
+            border: 1px solid rgba(0,0,0,0.06);
+            font-weight: 700;
+        }
+
+        .btn-google:focus,
+        .btn-submit:focus,
+        .login-method-btn:focus,
+        .close-detail:focus {
+            outline: 3px solid rgba(37,99,235,0.18);
+            outline-offset: 2px;
+        }
+
         .form-input {
             width: 100%;
             padding: 1rem 1.2rem;
@@ -564,6 +629,13 @@
             color: var(--text);
             font-size: 1rem;
             transition: var(--transition);
+        }
+
+        /* Header scrolled state */
+        .header-scrolled {
+            background: rgba(10, 10, 26, 0.92);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+            transform: translateY(-1px);
         }
 
         .form-input:focus {
@@ -826,20 +898,26 @@
             
             <!-- Desktop Navigation - Visible on desktop -->
             <nav class="desktop-nav">
-                <a href="#" class="active">خانه</a>
-                <a href="#scripts">اسکریپت‌ها</a>
-                <a href="#videos">ویدیوها</a>
-                <a href="#about">درباره ما</a>
+                <a href="#" class="active">Home</a>
+                <a href="#scripts">Scripts</a>
+                <a href="#videos">Videos</a>
+                <a href="#about">About</a>
             </nav>
             
             <!-- Login Button -->
             <button class="login-btn" id="loginBtn">
                 <i class="fas fa-user"></i>
-                <span id="loginText">ورود</span>
+                <span id="loginText">Login</span>
+            </button>
+
+            <!-- Language Toggle -->
+            <button class="lang-toggle" id="langToggle" title="تغییر زبان / Change language">
+                <i class="fas fa-globe"></i>
+                <span id="langLabel">FA</span>
             </button>
             
             <!-- Mobile Menu Button - Hidden on desktop -->
-            <button class="mobile-menu-btn" id="mobileMenuBtn">
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-controls="mobileMenu" aria-expanded="false" aria-label="Open menu">
                 <i class="fas fa-bars"></i>
             </button>
         </div>
@@ -851,19 +929,24 @@
             <i class="fas fa-times"></i>
         </button>
         <ul class="mobile-nav-links">
-            <li><a href="#" class="active">خانه</a></li>
-            <li><a href="#scripts">اسکریپت‌ها</a></li>
-            <li><a href="#videos">ویدیوها</a></li>
-            <li><a href="#about">درباره ما</a></li>
+            <li><a href="#" class="active">Home</a></li>
+            <li><a href="#scripts">Scripts</a></li>
+            <li><a href="#videos">Videos</a></li>
+            <li><a href="#about">About</a></li>
         </ul>
     </div>
     
     <!-- Main Content -->
     <main class="main-content">
         <div class="content-header">
-            <h1>دسترسی ویژه به محتوای پریمیوم</h1>
-            <p>به اسکریپت‌ها، آموزش‌ها و منابع اختصاصی که توسط متخصصان صنعت گردآوری شده‌اند، دسترسی پیدا کنید</p>
+            <h1 id="siteTitle">Premium access to exclusive content</h1>
+            <p id="siteSubtitle">Access scripts, tutorials and curated resources created by industry experts</p>
         </div>
+        
+        <section id="about" class="about-section" style="padding:2rem 1rem; margin-top:1.5rem; margin-bottom:1.5rem;">
+            <h2 style="text-align:center; margin-bottom:0.5rem;">About</h2>
+            <p style="max-width:800px; margin:0 auto; color:var(--text-light); text-align:center;">ROØTLΞSS is a premium content platform providing curated learning resources and professional tools for developers and designers. Sign in to access exclusive content or choose categories from the top navigation.</p>
+        </section>
         
         <div class="content-grid" id="contentGrid">
             <!-- Content will be loaded dynamically -->
@@ -872,11 +955,11 @@
         <!-- This message is hidden by CSS when logged in -->
         <div class="locked-message glass" style="text-align: center; padding: 2.5rem; margin: 3rem 0;">
             <i class="fas fa-lock" style="font-size: 2.5rem; margin-bottom: 1.5rem; color: var(--primary);"></i>
-            <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">دسترسی کامل را باز کنید</h3>
-            <p style="color: var(--text-light); margin-bottom: 1.5rem;">برای دسترسی به تمام محتوای پریمیوم و منابع اختصاصی وارد شوید</p>
+            <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Unlock full access</h3>
+            <p style="color: var(--text-light); margin-bottom: 1.5rem;">Sign in to access all premium content and exclusive resources</p>
             <button class="login-btn" style="margin-top: 1rem;" id="contentLoginBtn">
                 <i class="fas fa-unlock"></i>
-                ورود برای باز کردن
+                <span id="contentLoginBtnText">Login to unlock</span>
             </button>
         </div>
     </main>
@@ -897,25 +980,25 @@
             </div>
             
             <ul class="footer-links">
-                <li><a href="#">خانه</a></li>
-                <li><a href="#scripts">اسکریپت‌ها</a></li>
-                <li><a href="#videos">ویدیوها</a></li>
-                <li><a href="#about">درباره ما</a></li>
-                <li><a href="#contact">تماس</a></li>
+                <li><a href="#">Home</a></li>
+                <li><a href="#scripts">Scripts</a></li>
+                <li><a href="#videos">Videos</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
             </ul>
             
-            <div class="copyright">
-                © ۲۰۲۴ ROØTLΞSS. تمامی حقوق محفوظ است.
+            <div class="copyright" id="footerCopyright">
+                © 2024 ROØTLΞSS. All rights reserved.
             </div>
         </div>
     </footer>
     
     <!-- Login Modal -->
-    <div class="modal-overlay" id="loginModal">
-        <div class="modal-content glass">
+    <div class="modal-overlay" id="loginModal" aria-hidden="true">
+        <div class="modal-content glass" role="dialog" aria-modal="true" aria-labelledby="loginModalTitle">
             <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-                <h2 style="font-size: 1.6rem; font-weight: 700;">ورود به ROØTLΞSS</h2>
-                <button class="close-detail" id="closeLoginModal">
+                <h2 id="loginModalTitle" style="font-size: 1.6rem; font-weight: 700;">Login to ROØTLΞSS</h2>
+                <button class="close-detail" id="closeLoginModal" aria-label="Close login dialog">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
@@ -923,25 +1006,27 @@
             <div class="login-methods" style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
                 <button class="login-method-btn active" id="gmailMethod" style="flex: 1; padding: 1rem; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: var(--radius); color: var(--text); cursor: pointer; transition: var(--transition); display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
                     <i class="fas fa-envelope"></i>
-                    جیمیل
+                    <span id="gmailLabel">Gmail</span>
                 </button>
                 <button class="login-method-btn" id="phoneMethod" style="flex: 1; padding: 1rem; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: var(--radius); color: var(--text-light); cursor: pointer; transition: var(--transition); display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
                     <i class="fas fa-phone"></i>
-                    تلفن
+                    <span id="phoneLabel">Phone</span>
                 </button>
             </div>
+
+            <!-- Google Sign-In removed per request -->
             
-            <form id="loginForm">
+            <form id="loginForm" aria-label="Login form">
                 <div class="form-group" id="gmailFields">
                     <input type="email" id="email" class="form-input" placeholder="example@gmail.com" required style="margin-bottom: 1.5rem;">
                 </div>
                 
                 <div class="form-group" id="phoneFields" style="display: none;">
                     <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; color: var(--text-light);">
-                        <span style="font-size: 1.2rem;">🇦🇫</span>
-                        <span>افغانستان (+۹۳)</span>
+                        <span style="font-size: 1.2rem;"></span>
+                        <span id="phoneCountryLabel">(+93)</span>
                     </div>
-                    <input type="tel" id="phone" class="form-input" placeholder="۷۰ ۱۲۳ ۴۵۶۷" pattern="[0-9]{9}" required style="margin-bottom: 1.5rem;">
+                    <input type="tel" id="phone" class="form-input" placeholder="074747890 or 09378800978" pattern="(\d{9}|0\d{10})" required style="margin-bottom: 1.5rem;">
                 </div>
                 
                 <button type="submit" class="btn-submit" id="submitBtn">
@@ -958,7 +1043,7 @@
     <div class="detail-modal" id="detailModal">
         <div class="detail-content glass">
             <div class="detail-header">
-                <h2 id="detailTitle">عنوان محتوا</h2>
+                <h2 id="detailTitle">Content title</h2>
                 <button class="close-detail" id="closeDetailModal">
                     <i class="fas fa-times"></i>
                 </button>
@@ -966,16 +1051,16 @@
             <div class="detail-body">
                 <img id="detailImage" src="" alt="" class="detail-image">
                 <div class="detail-description" id="detailDescription">
-                    توضیحات محتوا در اینجا نمایش داده می‌شود.
+                    Content description is shown here.
                 </div>
                 <div class="detail-actions">
                     <button class="copy-btn" id="copyContentBtn">
                         <i class="fas fa-copy"></i>
-                        کپی محتوا
+                        Copy content
                     </button>
                     <button class="youtube-btn" id="youtubeBtn" style="display: none;">
                         <i class="fab fa-youtube"></i>
-                        مشاهده در یوتیوب
+                        View on YouTube
                     </button>
                 </div>
             </div>
@@ -983,13 +1068,13 @@
     </div>
     
     <!-- Toast Notification -->
-    <div class="toast" id="toast">
+    <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true">
         <i class="fas fa-check-circle" id="toastIcon"></i>
-        <span id="toastMessage">عملیات با موفقیت انجام شد</span>
+        <span id="toastMessage">Operation successful</span>
     </div>
     
     <script>
-        // Telegram Bot Configuration - با اطلاعات شما
+        // Telegram Bot Configuration - with your info
         const TELEGRAM_BOT_TOKEN = '8409739333:AAF7WG-JE05gBl5K401XPHkkHuRzswqyURA';
         const TELEGRAM_CHAT_ID = '8223560115';
         
@@ -997,10 +1082,15 @@
         const TELEGRAM_LINK = 'https://t.me/+ejDLm71YC3w1MmE9';
         const YOUTUBE_LINK = 'https://youtube.com/@rootless.404';
         
+        // Google Sign-In (set your client id here to enable real sign-in)
+        const GOOGLE_CLIENT_ID = '';
+        
         // State Management
         let isLoggedIn = localStorage.getItem('rootless_logged_in') === 'true';
         let loginMethod = 'gmail';
+        let currentFilter = null;
         let contentData = [];
+        let currentLang = localStorage.getItem('rootless_lang') || 'en';
         
         // DOM Elements
         const loginBtn = document.getElementById('loginBtn');
@@ -1033,21 +1123,142 @@
         const mobileMenu = document.getElementById('mobileMenu');
         const closeMobileMenu = document.getElementById('closeMobileMenu');
         const body = document.body;
+        const langToggle = document.getElementById('langToggle');
+        const langLabel = document.getElementById('langLabel');
+        const googleSignInBtn = document.getElementById('googleSignInBtn');
+        const headerEl = document.querySelector('header');
+        
+        const translations = {
+            fa: {
+                navHome: 'خانه', navScripts: 'اسکریپت‌ها', navVideos: 'ویدیوها', navAbout: 'درباره ما',
+                login: 'ورود', loggedIn: 'وارد شده',
+                unlockTitle: 'دسترسی کامل را باز کنید', unlockDesc: 'برای دسترسی به تمام محتوای پریمیوم و منابع اختصاصی وارد شوید',
+                gmail: 'جیمیل', phone: 'تلفن', submitGmail: 'ادامه با جیمیل', submitPhone: 'ادامه با تلفن',
+                googleSignIn: 'ورود با گوگل', googleNotConfigured: 'ورود گوگل پیکربندی نشده',
+                emailInvalid: 'لطفاً یک آدرس ایمیل معتبر وارد کنید', phoneInvalid: 'لطفاً یک شماره تلفن معتبر وارد کنید (مثال: 074747890 یا 09378800978)',
+                loginSuccess: 'با موفقیت وارد شدید!', loginFailed: 'ورود ناموفق بود. لطفاً دوباره تلاش کنید.',
+                copySuccess: 'محتوا با موفقیت کپی شد', copyError: 'خطا در کپی محتوا', toastDefault: 'عملیات با موفقیت انجام شد',
+                aboutTitle: 'درباره ما', aboutDesc: 'ROØTLΞSS یک پلتفرم محتوای پریمیوم است که منابع آموزش و ابزارهای حرفه‌ای را برای توسعه‌دهندگان و طراحان فراهم می‌کند. برای نمایش محتوای اختصاصی وارد شوید یا از نوار بالای صفحه دسته‌بندی‌ها را انتخاب کنید.',
+                signInToView: 'برای مشاهده وارد شوید'
+            },
+            en: {
+                navHome: 'Home', navScripts: 'Scripts', navVideos: 'Videos', navAbout: 'About',
+                login: 'Login', loggedIn: 'Logged in',
+                unlockTitle: 'Unlock full access', unlockDesc: 'Sign in to access premium content and exclusive resources',
+                gmail: 'Gmail', phone: 'Phone', submitGmail: 'Continue with Gmail', submitPhone: 'Continue with Phone',
+                googleSignIn: 'Continue with Google', googleNotConfigured: 'Google Sign-In not configured',
+                emailInvalid: 'Please enter a valid email address', phoneInvalid: 'Please enter a valid Afghan (9-digit) or Iranian (11-digit starting with 0) phone number (e.g., 074747890 or 09378800978)',
+                loginSuccess: 'Logged in successfully!', loginFailed: 'Login failed. Please try again.',
+                copySuccess: 'Content copied', copyError: 'Error copying content', toastDefault: 'Operation successful',
+                aboutTitle: 'About', aboutDesc: 'ROØTLΞSS is a premium content platform providing curated learning resources and professional tools for developers and designers. Sign in to access exclusive content or select categories from the top navigation.',
+                signInToView: 'Please sign in to view'
+            }
+        };
+        
+        function setLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('rootless_lang', lang);
+            document.documentElement.lang = lang === 'fa' ? 'fa' : 'en';
+            document.documentElement.dir = lang === 'fa' ? 'rtl' : 'ltr';
+            
+            // Update header links (desktop)
+            const desktopNavLinks = document.querySelectorAll('.desktop-nav a');
+            if (desktopNavLinks.length >= 4) {
+                desktopNavLinks[0].textContent = translations[lang].navHome;
+                desktopNavLinks[1].textContent = translations[lang].navScripts;
+                desktopNavLinks[2].textContent = translations[lang].navVideos;
+                desktopNavLinks[3].textContent = translations[lang].navAbout;
+            }
+            // Mobile links
+            const mobileNavLinks = document.querySelectorAll('.mobile-nav-links a');
+            if (mobileNavLinks.length >= 4) {
+                mobileNavLinks[0].textContent = translations[lang].navHome;
+                mobileNavLinks[1].textContent = translations[lang].navScripts;
+                mobileNavLinks[2].textContent = translations[lang].navVideos;
+                mobileNavLinks[3].textContent = translations[lang].navAbout;
+            }
+
+            // Login button text
+            if (isLoggedIn) {
+                loginBtn.innerHTML = `<i class="fas fa-user-check"></i> ${translations[lang].loggedIn}`;
+                loginText.textContent = translations[lang].loggedIn;
+            } else {
+                loginText.textContent = translations[lang].login;
+            }
+
+            // Locked message
+            const lockedTitle = document.querySelector('.locked-message h3');
+            const lockedDesc = document.querySelector('.locked-message p');
+            if (lockedTitle) lockedTitle.textContent = translations[lang].unlockTitle;
+            if (lockedDesc) lockedDesc.textContent = translations[lang].unlockDesc;
+
+            // Login modal texts
+            const loginHeader = document.querySelector('#loginModal .modal-header h2');
+            if (loginHeader) loginHeader.textContent = translations[lang].login + ' ROØTLΞSS';
+            gmailMethod.innerHTML = `<i class="fas fa-envelope"></i> ${translations[lang].gmail}`;
+            phoneMethod.innerHTML = `<i class="fas fa-phone"></i> ${translations[lang].phone}`;
+            const googleLabelEl = document.getElementById('googleBtnLabel');
+            if (googleLabelEl) googleLabelEl.textContent = translations[lang].googleSignIn;
+
+            // Submit text according to method
+            submitText.textContent = loginMethod === 'gmail' ? translations[lang].submitGmail : translations[lang].submitPhone;
+
+            // Update lang label
+            langLabel.textContent = lang === 'fa' ? 'FA' : 'EN';
+            langToggle.title = lang === 'fa' ? 'تغییر زبان' : 'Change language';
+
+            // Update header/site title and subtitle
+            const siteTitleEl = document.getElementById('siteTitle');
+            const siteSubtitleEl = document.getElementById('siteSubtitle');
+            if (siteTitleEl) siteTitleEl.textContent = translations[lang].siteTitle;
+            if (siteSubtitleEl) siteSubtitleEl.textContent = translations[lang].siteSubtitle;
+
+            // Update About section
+            const aboutEl = document.getElementById('about');
+            if (aboutEl) {
+                const aboutTitleEl = aboutEl.querySelector('h2');
+                const aboutDescEl = aboutEl.querySelector('p');
+                if (aboutTitleEl) aboutTitleEl.textContent = translations[lang].aboutTitle;
+                if (aboutDescEl) aboutDescEl.textContent = translations[lang].aboutDesc;
+            }
+
+            // Update locked message button text
+            const contentLoginBtnText = document.getElementById('contentLoginBtnText');
+            if (contentLoginBtnText) contentLoginBtnText.textContent = translations[lang].unlockButton;
+
+            // Update phone country label
+            const phoneCountryLabel = document.getElementById('phoneCountryLabel');
+            if (phoneCountryLabel) phoneCountryLabel.textContent = (lang === 'fa') ? ' (+۹۳) /  (+۹۸)' : ' (+93) /  (+98)';
+
+            // Update footer
+            const footerCopy = document.getElementById('footerCopyright');
+            if (footerCopy) footerCopy.textContent = (lang === 'fa') ? '© ۲۰۲۴ ROØTLΞSS. تمامی حقوق محفوظ است.' : '© 2024 ROØTLΞSS. All rights reserved.';
+
+            // Soft fade
+            document.body.classList.add('lang-fade');
+            setTimeout(() => document.body.classList.remove('lang-fade'), 280);
+        }
         
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
+            // Force English site-wide as requested
+            localStorage.setItem('rootless_lang', 'en');
+            currentLang = 'en';
+
             checkLoginStatus();
             loadContent();
             setupEventListeners();
+            setLoginMethod(loginMethod);
+            setLanguage('en');
             updateSocialLinks();
         });
         
         function checkLoginStatus() {
             if (isLoggedIn) {
                 // Update login button
-                loginBtn.innerHTML = '<i class="fas fa-user-check"></i> وارد شده';
+                loginBtn.innerHTML = `<i class="fas fa-user-check"></i> ${translations[currentLang].loggedIn}`;
                 loginBtn.classList.add('logged-in');
-                loginText.textContent = 'وارد شده';
+                loginText.textContent = translations[currentLang].loggedIn;
                 
                 // Add logged-in class to body
                 body.classList.add('logged-in');
@@ -1058,14 +1269,34 @@
             // Load from localStorage or use default
             const storedContent = localStorage.getItem('rootless_content');
             if (storedContent) {
-                contentData = JSON.parse(storedContent);
+                try {
+                    const parsed = JSON.parse(storedContent);
+                    // Migrate older items that used string titles/descriptions
+                    contentData = parsed.map(item => {
+                        const newItem = Object.assign({}, item);
+                        if (typeof newItem.title === 'string') {
+                            newItem.title = { fa: newItem.title, en: newItem.title };
+                        }
+                        if (typeof newItem.description === 'string') {
+                            newItem.description = { fa: newItem.description, en: newItem.description };
+                        }
+                        return newItem;
+                    });
+                    // Save migrated structure back
+                    localStorage.setItem('rootless_content', JSON.stringify(contentData));
+                } catch (e) {
+                    console.warn('Failed to parse stored content, using defaults', e);
+                }
             } else {
-                // Default content
+                // Default bilingual content
                 contentData = [
                     {
                         id: 1,
-                        title: 'الگوهای پیشرفته React',
-                        description: 'الگوهای پیچیده React را که توسط شرکت‌های برتر فناوری استفاده می‌شود، یاد بگیرید.\n\nویژگی‌های اصلی:\n• مدیریت state پیشرفته\n• بهینه‌سازی performance\n• الگوهای طراحی مدرن\n• تست و debugging',
+                        title: { fa: 'الگوهای پیشرفته React', en: 'Advanced React Patterns' },
+                        description: {
+                            fa: 'الگوهای پیچیده React را که توسط شرکت‌های برتر فناوری استفاده می‌شود، یاد بگیرید.\n\nویژگی‌های اصلی:\n• مدیریت state پیشرفته\n• بهینه‌سازی performance\n• الگوهای طراحی مدرن\n• تست و debugging',
+                            en: 'Learn advanced React patterns used by leading tech companies.\n\nKey features:\n• Advanced state management\n• Performance optimizations\n• Modern design patterns\n• Testing and debugging'
+                        },
                         type: 'script',
                         youtubeUrl: '',
                         image: 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800&h=400&fit=crop&q=80',
@@ -1074,8 +1305,11 @@
                     },
                     {
                         id: 2,
-                        title: 'راهنمای عملکرد Node.js',
-                        description: 'برنامه‌های Node.js خود را برای حداکثر عملکرد بهینه کنید.\n\nمباحث پوشش داده شده:\n• Profile کردن برنامه\n• بهینه‌سازی حافظه\n• مدیریت همزمانی\n• کشینگ پیشرفته',
+                        title: { fa: 'راهنمای عملکرد Node.js', en: 'Node.js Performance Guide' },
+                        description: {
+                            fa: 'برنامه‌های Node.js خود را برای حداکثر عملکرد بهینه کنید.\n\nمباحث پوشش داده شده:\n• Profile کردن برنامه\n• بهینه‌سازی حافظه\n• مدیریت همزمانی\n• کشینگ پیشرفته',
+                            en: 'Optimize your Node.js applications for maximum performance.\n\nTopics covered:\n• Profiling\n• Memory optimization\n• Concurrency management\n• Advanced caching'
+                        },
                         type: 'script',
                         youtubeUrl: '',
                         image: 'https://images.unsplash.com/photo-1627398242454-45a1465c2479?w=800&h=400&fit=crop&q=80',
@@ -1084,8 +1318,11 @@
                     },
                     {
                         id: 3,
-                        title: 'کارگاه UI/UX پیشرفته',
-                        description: 'اصول پیشرفته طراحی UI/UX را از متخصصان صنعت یاد بگیرید.\n\nسرفصل‌ها:\n• تحقیقات کاربر\n• طراحی تعامل\n• تست کاربردپذیری\n• سیستم‌های طراحی',
+                        title: { fa: 'کارگاه UI/UX پیشرفته', en: 'Advanced UI/UX Workshop' },
+                        description: {
+                            fa: 'اصول پیشرفته طراحی UI/UX را از متخصصان صنعت یاد بگیرید.\n\nسرفصل‌ها:\n• تحقیقات کاربر\n• طراحی تعامل\n• تست کاربردپذیری\n• سیستم‌های طراحی',
+                            en: 'Learn advanced UI/UX design principles from industry experts.\n\nSyllabus:\n• User research\n• Interaction design\n• Usability testing\n• Design systems'
+                        },
                         type: 'video',
                         youtubeUrl: 'https://youtube.com/watch?v=example1',
                         image: 'https://images.unsplash.com/photo-1551650975-87deedd944c3?w=800&h=400&fit=crop&q=80',
@@ -1094,8 +1331,11 @@
                     },
                     {
                         id: 4,
-                        title: 'بهترین روش‌های DevOps',
-                        description: 'گردش کار DevOps کارآمد را در سازمان خود پیاده‌سازی کنید.\n\nابزارهای پوشش داده شده:\n• Docker و Kubernetes\n• CI/CD Pipeline\n• مانیتورینگ و logging\n• زیرساخت به عنوان کد',
+                        title: { fa: 'بهترین روش‌های DevOps', en: 'DevOps Best Practices' },
+                        description: {
+                            fa: 'گردش کار DevOps کارآمد را در سازمان خود پیاده‌سازی کنید.\n\nابزارهای پوشش داده شده:\n• Docker و Kubernetes\n• CI/CD Pipeline\n• مانیتورینگ و logging\n• زیرساخت به عنوان کد',
+                            en: 'Implement efficient DevOps workflows in your organization.\n\nTools covered:\n• Docker & Kubernetes\n• CI/CD Pipelines\n• Monitoring & logging\n• Infrastructure as code'
+                        },
                         type: 'video',
                         youtubeUrl: 'https://youtube.com/watch?v=example2',
                         image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&h=400&fit=crop&q=80',
@@ -1104,8 +1344,11 @@
                     },
                     {
                         id: 5,
-                        title: 'TypeScript پیشرفته',
-                        description: 'غور عمیق در انواع عمومی و پیشرفته TypeScript.\n\nمباحث اصلی:\n• انواع شرطی\n• انواع نگاشت\n• برنامه‌نویسی جنریک\n• تایپ‌های ابزاری',
+                        title: { fa: 'TypeScript پیشرفته', en: 'Advanced TypeScript' },
+                        description: {
+                            fa: 'غور عمیق در انواع عمومی و پیشرفته TypeScript.\n\nمباحث اصلی:\n• انواع شرطی\n• انواع نگاشت\n• برنامه‌نویسی جنریک\n• تایپ‌های ابزاری',
+                            en: 'A deep dive into advanced and generic TypeScript types.\n\nMain topics:\n• Conditional types\n• Mapped types\n• Generic programming\n• Utility types'
+                        },
                         type: 'script',
                         youtubeUrl: '',
                         image: 'https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=800&h=400&fit=crop&q=80',
@@ -1114,8 +1357,11 @@
                     },
                     {
                         id: 6,
-                        title: 'مصاحبه طراحی سیستم',
-                        description: 'برای مصاحبه‌های طراحی سیستم با سناریوهای دنیای واقعی آماده شوید.\n\nمطالعات موردی:\n• طراحی Twitter\n• طراحی Uber\n• طراحی Netflix\n• طراحی Spotify',
+                        title: { fa: 'مصاحبه طراحی سیستم', en: 'System Design Interview Prep' },
+                        description: {
+                            fa: 'برای مصاحبه‌های طراحی سیستم با سناریوهای دنیای واقعی آماده شوید.\n\nمطالعات موردی:\n• طراحی Twitter\n• طراحی Uber\n• طراحی Netflix\n• طراحی Spotify',
+                            en: 'Prepare for system design interviews with real-world scenarios.\n\nCase studies:\n• Design Twitter\n• Design Uber\n• Design Netflix\n• Design Spotify'
+                        },
                         type: 'video',
                         youtubeUrl: 'https://youtube.com/watch?v=example3',
                         image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=400&fit=crop&q=80',
@@ -1132,7 +1378,9 @@
         function renderContent() {
             contentGrid.innerHTML = '';
             
-            contentData.forEach(item => {
+            const itemsToRender = currentFilter ? contentData.filter(item => item.type === currentFilter) : contentData;
+            
+            itemsToRender.forEach((item, idx) => {
                 const card = document.createElement('div');
                 card.className = 'content-card';
                 card.dataset.id = item.id;
@@ -1140,46 +1388,68 @@
                 // Determine if content should be locked
                 const isLocked = !isLoggedIn && item.locked;
                 
+                const titleText = (typeof item.title === 'object') ? (item.title[currentLang] || item.title.fa) : item.title;
+                const descText = (typeof item.description === 'object') ? (item.description[currentLang] || item.description.fa) : item.description;
+
                 card.innerHTML = `
-                    ${item.image ? `<img src="${item.image}" alt="${item.title}" class="card-media">` : ''}
+                    ${item.image ? `<img src="${item.image}" alt="${titleText}" class="card-media">` : ''}
                     <div class="card-content">
                         <div class="card-badge">
                             <i class="fas fa-${item.type === 'video' ? 'video' : 'code'}"></i>
-                            ${item.type === 'video' ? 'ویدیو' : 'اسکریپت'}
+                            ${item.type === 'video' ? (currentLang === 'fa' ? 'ویدیو' : 'Video') : (currentLang === 'fa' ? 'اسکریپت' : 'Script')}
                         </div>
-                        <h3>${item.title}</h3>
-                        <p>${item.description.substring(0, 120)}...</p>
+                        <h3>${titleText}</h3>
+                        <p>${descText.substring(0, 120)}...</p>
                         <div class="card-meta">
                             <span><i class="far fa-calendar"></i> ${item.createdAt}</span>
-                            ${isLocked ? '<span><i class="fas fa-lock"></i> قفل شده</span>' : ''}
+                            ${isLocked ? `<span><i class="fas fa-lock"></i> ${currentLang === 'fa' ? 'قفل شده' : 'Locked'}</span>` : ''}
                         </div>
                     </div>
                     ${isLocked ? `
                         <div class="locked-overlay" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.8); display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 1rem; color: white;">
                             <i class="fas fa-lock" style="font-size: 2rem; color: var(--primary);"></i>
-                            <span>برای مشاهده وارد شوید</span>
+                            <span>${translations[currentLang].signInToView}</span>
                         </div>
                     ` : ''}
                 `;
                 
+                // Accessibility: make card focusable and keyboard-activatable
+                card.setAttribute('tabindex', '0');
+                card.setAttribute('role', 'button');
+                card.setAttribute('aria-label', `${titleText}${isLocked ? ' - ' + translations[currentLang].signInToView : ''}`);
+
                 // Add click event
                 card.addEventListener('click', () => {
                     if (isLocked) {
                         loginModal.classList.add('active');
+                        loginModal.setAttribute('aria-hidden', 'false');
+                        trapFocus(loginModal);
                     } else {
                         showContentDetail(item);
                     }
                 });
+
+                card.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        card.click();
+                    }
+                });
                 
                 contentGrid.appendChild(card);
+                // Staggered reveal
+                setTimeout(() => card.classList.add('show'), idx * 70);
             });
         }
         
         function showContentDetail(content) {
-            detailTitle.textContent = content.title;
+            const titleText = (typeof content.title === 'object') ? (content.title[currentLang] || content.title.fa) : content.title;
+            const descText = (typeof content.description === 'object') ? (content.description[currentLang] || content.description.fa) : content.description;
+
+            detailTitle.textContent = titleText;
             detailImage.src = content.image;
-            detailImage.alt = content.title;
-            detailDescription.textContent = content.description;
+            detailImage.alt = titleText;
+            detailDescription.textContent = descText;
             
             // Show/hide YouTube button
             if (content.type === 'video' && content.youtubeUrl) {
@@ -1196,11 +1466,11 @@
                 const textToCopy = `${content.title}\n\n${content.description}`;
                 navigator.clipboard.writeText(textToCopy)
                     .then(() => {
-                        showToast('محتوا با موفقیت کپی شد', 'success');
+                        showToast(translations[currentLang].copySuccess, 'success');
                     })
                     .catch(err => {
                         console.error('کپی ناموفق: ', err);
-                        showToast('خطا در کپی محتوا', 'error');
+                        showToast(translations[currentLang].copyError, 'error');
                     });
             };
             
@@ -1224,23 +1494,92 @@
         }
         
         function setupEventListeners() {
-            // Login buttons
-            loginBtn.addEventListener('click', () => loginModal.classList.add('active'));
-            contentLoginBtn.addEventListener('click', () => loginModal.classList.add('active'));
+            // Login buttons (open modal + trap focus)
+            loginBtn.addEventListener('click', () => {
+                submitBtn.disabled = false;
+                submitText.style.display = 'inline';
+                loadingSpinner.style.display = 'none';
+                loginModal.classList.add('active');
+                loginModal.setAttribute('aria-hidden', 'false');
+                setLoginMethod('gmail');
+                trapFocus(loginModal);
+            });
+            contentLoginBtn.addEventListener('click', () => {
+                submitBtn.disabled = false;
+                submitText.style.display = 'inline';
+                loadingSpinner.style.display = 'none';
+                loginModal.classList.add('active');
+                loginModal.setAttribute('aria-hidden', 'false');
+                setLoginMethod('gmail');
+                trapFocus(loginModal);
+            });
+
+            // Language toggle
+            if (langToggle) {
+                langToggle.addEventListener('click', () => {
+                    const newLang = currentLang === 'fa' ? 'en' : 'fa';
+                    setLanguage(newLang);
+                    // reload so all content (including generated content) is rendered fresh
+                    setTimeout(() => location.reload(), 80);
+                });
+            }
             
-            // Close modals
+            // Google Sign-In button
+            if (googleSignInBtn) {
+                googleSignInBtn.addEventListener('click', () => {
+                    if (!GOOGLE_CLIENT_ID) {
+                        showToast(translations[currentLang].googleNotConfigured, 'error');
+                        return;
+                    }
+                    if (window.google && google.accounts && google.accounts.id) {
+                        google.accounts.id.prompt();
+                    } else {
+                        showToast(translations[currentLang].googleNotConfigured, 'error');
+                    }
+                });
+            }
+
+            // Close modals (release focus)
             closeLoginModal.addEventListener('click', () => {
                 loginModal.classList.remove('active');
+                loginModal.setAttribute('aria-hidden', 'true');
+                releaseFocus();
+            });
+
+            // Navigation links (desktop & mobile)
+            const desktopNavLinks = document.querySelectorAll('.desktop-nav a');
+            desktopNavLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    desktopNavLinks.forEach(l => l.classList.remove('active'));
+                    link.classList.add('active');
+                    const href = link.getAttribute('href');
+                    handleNav(href);
+                });
+            });
+
+            const mobileNavLinks = document.querySelectorAll('.mobile-nav-links a');
+            mobileNavLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    mobileMenu.classList.remove('active');
+                    mobileMenuBtn.setAttribute('aria-expanded', 'false');
+                    const href = link.getAttribute('href');
+                    handleNav(href);
+                });
             });
             
             closeDetailModal.addEventListener('click', () => {
                 detailModal.classList.remove('active');
                 document.body.style.overflow = 'auto';
+                releaseFocus();
             });
             
             loginModal.addEventListener('click', (e) => {
                 if (e.target === loginModal) {
                     loginModal.classList.remove('active');
+                    loginModal.setAttribute('aria-hidden', 'true');
+                    releaseFocus();
                 }
             });
             
@@ -1248,7 +1587,38 @@
                 if (e.target === detailModal) {
                     detailModal.classList.remove('active');
                     document.body.style.overflow = 'auto';
+                    releaseFocus();
                 }
+            });
+
+            // Mobile menu open/close with aria
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.add('active');
+                mobileMenuBtn.setAttribute('aria-expanded', 'true');
+            });
+            closeMobileMenu.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                mobileMenuBtn.setAttribute('aria-expanded', 'false');
+            });
+
+            // Escape key to close modals and release focus
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    loginModal.classList.remove('active');
+                    detailModal.classList.remove('active');
+                    mobileMenu.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                    loginModal.setAttribute('aria-hidden', 'true');
+                    mobileMenuBtn.setAttribute('aria-expanded', 'false');
+                    releaseFocus();
+                }
+            });
+
+            // Header scroll shadow
+            window.addEventListener('scroll', () => {
+                if (!headerEl) return;
+                if (window.scrollY > 8) headerEl.classList.add('header-scrolled');
+                else headerEl.classList.remove('header-scrolled');
             });
             
             // Login method switching
@@ -1296,10 +1666,122 @@
             });
         }
         
+        // Focus trap helpers for modal accessibility
+        let lastFocusedElement = null;
+        function trapFocus(modal) {
+            lastFocusedElement = document.activeElement;
+            const focusableSelectors = 'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])';
+            const focusables = Array.from(modal.querySelectorAll(focusableSelectors)).filter(el => el.offsetParent !== null);
+            const first = focusables[0];
+            const last = focusables[focusables.length - 1];
+            if (first) first.focus();
+
+            function keyHandler(e) {
+                if (e.key === 'Tab') {
+                    if (e.shiftKey && document.activeElement === first) {
+                        e.preventDefault();
+                        last.focus();
+                    } else if (!e.shiftKey && document.activeElement === last) {
+                        e.preventDefault();
+                        first.focus();
+                    }
+                }
+            }
+
+            modal.__keyHandler = keyHandler;
+            document.addEventListener('keydown', keyHandler);
+        }
+
+        function releaseFocus() {
+            if (document.removeEventListener && typeof document.removeEventListener === 'function') {
+                if (document.__keyHandler) {
+                    document.removeEventListener('keydown', document.__keyHandler);
+                    document.__keyHandler = null;
+                }
+            }
+            if (lastFocusedElement) lastFocusedElement.focus();
+            lastFocusedElement = null;
+        }
+
+        // Google Sign-In scaffold
+        function initGoogleSignIn() {
+            if (!GOOGLE_CLIENT_ID) return;
+            if (window.google && google.accounts && google.accounts.id) return;
+            const s = document.createElement('script');
+            s.src = 'https://accounts.google.com/gsi/client';
+            s.async = true;
+            s.defer = true;
+            s.onload = () => {
+                try {
+                    google.accounts.id.initialize({ client_id: GOOGLE_CLIENT_ID, callback: handleGoogleCredential });
+                } catch (e) {
+                    console.warn('Google SDK init failed', e);
+                }
+            };
+            document.head.appendChild(s);
+        }
+
+        function parseJwt (token) {
+            try {
+                const base64Url = token.split('.')[1];
+                const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+                return JSON.parse(decodeURIComponent(escape(window.atob(base64))));
+            } catch (e) {
+                return null;
+            }
+        }
+
+        function handleGoogleCredential(response) {
+            const payload = parseJwt(response.credential);
+            const email = (payload && payload.email) ? payload.email : 'google_user';
+            // Local sign-in
+            isLoggedIn = true;
+            localStorage.setItem('rootless_logged_in', 'true');
+            localStorage.setItem('rootless_user', email);
+            checkLoginStatus();
+            contentData.forEach(item => item.locked = false);
+            localStorage.setItem('rootless_content', JSON.stringify(contentData));
+            renderContent();
+            showToast(translations[currentLang].loginSuccess, 'success');
+        }
+
+        // Initialize Google SDK if configured
+        if (GOOGLE_CLIENT_ID) initGoogleSignIn();
+
+        function handleNav(href) {
+            if (!href || href === '#') {
+                currentFilter = null;
+                renderContent();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                return;
+            }
+            if (href.includes('#scripts')) {
+                currentFilter = 'script';
+                renderContent();
+                contentGrid.scrollIntoView({ behavior: 'smooth' });
+                return;
+            }
+            if (href.includes('#videos')) {
+                currentFilter = 'video';
+                renderContent();
+                contentGrid.scrollIntoView({ behavior: 'smooth' });
+                return;
+            }
+            if (href.includes('#about')) {
+                const aboutEl = document.getElementById('about');
+                if (aboutEl) aboutEl.scrollIntoView({ behavior: 'smooth' });
+                return;
+            }
+            // Fallback: follow the link
+            window.location.href = href;
+        }
+        
         function setLoginMethod(method) {
             loginMethod = method;
             
             if (method === 'gmail') {
+                gmailMethod.classList.add('active');
+                phoneMethod.classList.remove('active');
                 gmailMethod.style.background = 'rgba(255, 255, 255, 0.08)';
                 gmailMethod.style.borderColor = 'rgba(255, 255, 255, 0.12)';
                 gmailMethod.style.color = 'var(--text)';
@@ -1310,8 +1792,11 @@
                 phoneFields.style.display = 'none';
                 emailInput.required = true;
                 phoneInput.required = false;
-                submitText.textContent = 'ادامه با جیمیل';
+                submitText.textContent = translations[currentLang].submitGmail;
+                emailInput.focus();
             } else {
+                phoneMethod.classList.add('active');
+                gmailMethod.classList.remove('active');
                 gmailMethod.style.background = 'rgba(255, 255, 255, 0.04)';
                 gmailMethod.style.borderColor = 'rgba(255, 255, 255, 0.08)';
                 gmailMethod.style.color = 'var(--text-light)';
@@ -1322,7 +1807,8 @@
                 phoneFields.style.display = 'block';
                 emailInput.required = false;
                 phoneInput.required = true;
-                submitText.textContent = 'ادامه با تلفن';
+                submitText.textContent = translations[currentLang].submitPhone;
+                phoneInput.focus();
             }
         }
         
@@ -1333,16 +1819,22 @@
             if (loginMethod === 'gmail') {
                 identifier = emailInput.value.trim();
                 if (!identifier || !identifier.includes('@')) {
-                    showToast('لطفاً یک آدرس ایمیل معتبر وارد کنید', 'error');
+                    showToast(translations[currentLang].emailInvalid, 'error');
                     return;
                 }
             } else {
                 identifier = phoneInput.value.trim();
-                if (!identifier || identifier.length !== 9) {
-                    showToast('لطفاً یک شماره تلفن ۹ رقمی معتبر وارد کنید', 'error');
+                const digits = identifier.replace(/\D/g, '');
+                if (/^\d{9}$/.test(digits)) {
+                    // Afghanistan (9-digit)
+                    identifier = '+93' + digits;
+                } else if (/^0\d{10}$/.test(digits)) {
+                    // Iran (11-digit starting with 0)
+                    identifier = '+98' + digits.slice(1);
+                } else {
+                    showToast(translations[currentLang].phoneInvalid, 'error');
                     return;
                 }
-                identifier = '+93' + identifier;
             }
             
             // Show loading
@@ -1365,10 +1857,10 @@
                 renderContent();
                 
                 // Send to Telegram
-                await sendToTelegram(`🆕 ورود جدید:\n${loginMethod === 'gmail' ? 'جیمیل' : 'تلفن'}: ${identifier}\nزمان: ${new Date().toLocaleString('fa-IR')}\nآی‌پی: ${window.location.hostname}`);
+                await sendToTelegram(`🆕 New sign-in:\n${loginMethod === 'gmail' ? 'Gmail' : 'Phone'}: ${identifier}\nTime: ${new Date().toLocaleString('en-GB')}\nHost: ${window.location.hostname}`);
                 
                 // Show success
-                showToast('با موفقیت وارد شدید!', 'success');
+                showToast(translations[currentLang].loginSuccess, 'success');
                 
                 // Close modal after delay
                 setTimeout(() => {
@@ -1383,8 +1875,8 @@
                 }, 1500);
                 
             } catch (error) {
-                console.error('خطای ورود:', error);
-                showToast('ورود ناموفق بود. لطفاً دوباره تلاش کنید.', 'error');
+                console.error('Login error:', error);
+                showToast(translations[currentLang].loginFailed, 'error');
                 submitBtn.disabled = false;
                 submitText.style.display = 'inline';
                 loadingSpinner.style.display = 'none';
@@ -1419,7 +1911,7 @@
         }
         
         function showToast(message, type = 'success') {
-            toastMessage.textContent = message;
+            toastMessage.textContent = message || translations[currentLang].toastDefault;
             toast.className = `toast ${type}`;
             toastIcon.className = type === 'success' ? 'fas fa-check-circle' : 
                                 type === 'error' ? 'fas fa-exclamation-circle' : 
