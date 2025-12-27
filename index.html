@@ -1,0 +1,1436 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#0a0a1a">
+    <title>ROØTLΞSS - Premium Content Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+    <style>
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.07);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            --blur: blur(25px);
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --primary-light: #3b82f6;
+            --dark-bg: #0a0a1a;
+            --darker-bg: #050511;
+            --text: #ffffff;
+            --text-light: #a1a1aa;
+            --text-lighter: #71717a;
+            --danger: #ef4444;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --radius: 18px;
+            --radius-lg: 24px;
+            --radius-full: 9999px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, var(--darker-bg) 0%, var(--dark-bg) 50%, #1e1b4b 100%);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+            overflow-x: hidden;
+        }
+
+        /* Glass Effect - Apple Style */
+        .glass {
+            background: var(--glass-bg);
+            backdrop-filter: var(--blur);
+            -webkit-backdrop-filter: var(--blur);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            box-shadow: var(--glass-shadow);
+        }
+
+        .glass-strong {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(35px);
+            -webkit-backdrop-filter: blur(35px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        /* Header - Fixed Responsive */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 0.75rem 1rem;
+            padding-top: calc(0.75rem + env(safe-area-inset-top));
+            background: rgba(10, 10, 26, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            transition: var(--transition);
+        }
+
+        .header-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1400px;
+            margin: 0 auto;
+            gap: 1rem;
+        }
+
+        /* Logo */
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--text);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+            padding: 0.5rem 0;
+        }
+
+        .logo i {
+            color: var(--primary);
+            font-size: 1.8rem;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Desktop Navigation - Visible on desktop only */
+        .desktop-nav {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .desktop-nav a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-full);
+            transition: var(--transition);
+            position: relative;
+            white-space: nowrap;
+        }
+
+        .desktop-nav a:hover,
+        .desktop-nav a.active {
+            color: var(--text);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .desktop-nav a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 2px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        /* Login Button */
+        .login-btn {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: var(--radius-full);
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            white-space: nowrap;
+            box-shadow: 0 4px 20px rgba(37, 99, 235, 0.3);
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(37, 99, 235, 0.4);
+        }
+
+        .login-btn:active {
+            transform: translateY(0);
+        }
+
+        .login-btn.logged-in {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success);
+            box-shadow: none;
+        }
+
+        .login-btn.logged-in:hover {
+            background: rgba(16, 185, 129, 0.3);
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Mobile Menu Button - Hidden on desktop */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1400px;
+            margin: 90px auto 2rem;
+            padding: 0 1rem;
+        }
+
+        .content-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem 1rem;
+        }
+
+        .content-header h1 {
+            font-size: 3.2rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, #ffffff, #a5b4fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.1;
+        }
+
+        .content-header p {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+
+        /* Content Grid */
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.8rem;
+            margin-bottom: 4rem;
+        }
+
+        .content-card {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .content-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .card-media {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .card-content {
+            padding: 1.8rem;
+        }
+
+        .card-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(37, 99, 235, 0.15);
+            color: var(--primary-light);
+            padding: 0.4rem 1rem;
+            border-radius: var(--radius-full);
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .card-content h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+            color: var(--text);
+        }
+
+        .card-content p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin-bottom: 1.2rem;
+        }
+
+        .card-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: var(--text-lighter);
+            font-size: 0.85rem;
+        }
+
+        /* Locked Content */
+        .locked-message {
+            display: none !important;
+        }
+
+        /* Detail Modal */
+        .detail-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            padding: 1rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .detail-modal.active {
+            display: flex;
+            opacity: 1;
+            animation: modalFadeIn 0.3s ease;
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .detail-content {
+            width: 100%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            background: rgba(20, 20, 40, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-lg);
+            padding: 0;
+        }
+
+        .detail-header {
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .detail-header h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .close-detail {
+            background: rgba(255, 255, 255, 0.05);
+            border: none;
+            color: var(--text);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .close-detail:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .detail-body {
+            padding: 2rem;
+        }
+
+        .detail-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: var(--radius);
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .detail-description {
+            color: var(--text-light);
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+            white-space: pre-line;
+        }
+
+        .detail-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .copy-btn, .youtube-btn {
+            padding: 0.9rem 1.8rem;
+            border-radius: var(--radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            font-size: 1rem;
+        }
+
+        .copy-btn {
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text);
+        }
+
+        .copy-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .youtube-btn {
+            background: linear-gradient(135deg, #FF0000, #FF4747);
+            color: white;
+            box-shadow: 0 4px 20px rgba(255, 0, 0, 0.3);
+        }
+
+        .youtube-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(255, 0, 0, 0.4);
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(10, 10, 26, 0.8);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 3rem 1rem 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1.2rem;
+        }
+
+        .social-link {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text);
+            font-size: 1.3rem;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+
+        .social-link:hover {
+            background: rgba(255, 255, 255, 0.12);
+            transform: translateY(-3px);
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .footer-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--text);
+        }
+
+        .copyright {
+            text-align: center;
+            color: var(--text-lighter);
+            font-size: 0.9rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            width: 100%;
+            max-width: 600px;
+        }
+
+        /* Login Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            padding: 1rem;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            width: 100%;
+            max-width: 420px;
+            background: rgba(20, 20, 40, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+            animation: modalSlideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes modalSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 1rem 1.2rem;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: var(--radius);
+            color: var(--text);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: rgba(255, 255, 255, 0.09);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            border: none;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 1rem;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(37, 99, 235, 0.4);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1100px) {
+            .content-grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
+            
+            .content-header h1 {
+                font-size: 2.8rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            /* Hide desktop nav on mobile */
+            .desktop-nav {
+                display: none;
+            }
+            
+            /* Show mobile menu button */
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            /* Logo smaller on mobile */
+            .logo {
+                font-size: 1.4rem;
+            }
+            
+            .logo i {
+                font-size: 1.5rem;
+            }
+            
+            /* Login button smaller on mobile */
+            .login-btn {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.85rem;
+            }
+            
+            /* Content adjustments */
+            .content-header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .content-header p {
+                font-size: 1.1rem;
+            }
+            
+            .content-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            /* Detail modal adjustments */
+            .detail-content {
+                margin: 0.5rem;
+                max-height: 85vh;
+            }
+            
+            .detail-header {
+                padding: 1.2rem 1.5rem;
+            }
+            
+            .detail-body {
+                padding: 1.5rem;
+            }
+            
+            .detail-image {
+                height: 250px;
+            }
+            
+            .detail-actions {
+                flex-direction: column;
+            }
+            
+            .copy-btn, .youtube-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            /* Footer adjustments */
+            .footer-links {
+                gap: 1.5rem;
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-container {
+                gap: 0.5rem;
+            }
+            
+            .logo {
+                font-size: 1.3rem;
+            }
+            
+            .login-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.8rem;
+            }
+            
+            .content-header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .modal-content {
+                padding: 1.8rem;
+            }
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(10, 10, 26, 0.98);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            display: none;
+            flex-direction: column;
+            padding: 5rem 2rem 2rem;
+            z-index: 1500;
+        }
+
+        .mobile-menu.active {
+            display: flex;
+        }
+
+        .mobile-nav-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .mobile-nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-size: 1.2rem;
+            padding: 1rem 1.5rem;
+            border-radius: var(--radius);
+            background: rgba(255, 255, 255, 0.05);
+            display: block;
+            transition: var(--transition);
+        }
+
+        .mobile-nav-links a:hover,
+        .mobile-nav-links a.active {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
+        }
+
+        .close-mobile-menu {
+            position: absolute;
+            top: 1.2rem;
+            right: 1.2rem;
+            background: rgba(255, 255, 255, 0.08);
+            border: none;
+            color: var(--text);
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: rgba(30, 30, 60, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: var(--radius);
+            padding: 1rem 1.5rem;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            z-index: 3000;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: var(--transition);
+            max-width: 400px;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast.success {
+            border-left: 4px solid var(--success);
+        }
+
+        .toast.error {
+            border-left: 4px solid var(--danger);
+        }
+
+        .toast.warning {
+            border-left: 4px solid var(--warning);
+        }
+
+        /* Hide unlock message when logged in */
+        body.logged-in .locked-message {
+            display: none !important;
+        }
+
+        /* Show content properly when logged in */
+        body.logged-in .content-card {
+            filter: none;
+            opacity: 1;
+            pointer-events: auto;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="glass-strong">
+        <div class="header-container">
+            <!-- Logo -->
+            <a href="#" class="logo">
+                <i class="fas fa-infinity"></i>
+                ROØTLΞSS
+            </a>
+            
+            <!-- Desktop Navigation - Visible on desktop -->
+            <nav class="desktop-nav">
+                <a href="#" class="active">خانه</a>
+                <a href="#scripts">اسکریپت‌ها</a>
+                <a href="#videos">ویدیوها</a>
+                <a href="#about">درباره ما</a>
+            </nav>
+            
+            <!-- Login Button -->
+            <button class="login-btn" id="loginBtn">
+                <i class="fas fa-user"></i>
+                <span id="loginText">ورود</span>
+            </button>
+            
+            <!-- Mobile Menu Button - Hidden on desktop -->
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+    
+    <!-- Mobile Menu - Hidden by default -->
+    <div class="mobile-menu" id="mobileMenu">
+        <button class="close-mobile-menu" id="closeMobileMenu">
+            <i class="fas fa-times"></i>
+        </button>
+        <ul class="mobile-nav-links">
+            <li><a href="#" class="active">خانه</a></li>
+            <li><a href="#scripts">اسکریپت‌ها</a></li>
+            <li><a href="#videos">ویدیوها</a></li>
+            <li><a href="#about">درباره ما</a></li>
+        </ul>
+    </div>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="content-header">
+            <h1>دسترسی ویژه به محتوای پریمیوم</h1>
+            <p>به اسکریپت‌ها، آموزش‌ها و منابع اختصاصی که توسط متخصصان صنعت گردآوری شده‌اند، دسترسی پیدا کنید</p>
+        </div>
+        
+        <div class="content-grid" id="contentGrid">
+            <!-- Content will be loaded dynamically -->
+        </div>
+        
+        <!-- This message is hidden by CSS when logged in -->
+        <div class="locked-message glass" style="text-align: center; padding: 2.5rem; margin: 3rem 0;">
+            <i class="fas fa-lock" style="font-size: 2.5rem; margin-bottom: 1.5rem; color: var(--primary);"></i>
+            <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">دسترسی کامل را باز کنید</h3>
+            <p style="color: var(--text-light); margin-bottom: 1.5rem;">برای دسترسی به تمام محتوای پریمیوم و منابع اختصاصی وارد شوید</p>
+            <button class="login-btn" style="margin-top: 1rem;" id="contentLoginBtn">
+                <i class="fas fa-unlock"></i>
+                ورود برای باز کردن
+            </button>
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="social-links">
+                <a href="https://t.me/+ejDLm71YC3w1MmE9" target="_blank" class="social-link" title="Telegram">
+                    <i class="fab fa-telegram"></i>
+                </a>
+                <a href="https://youtube.com/@rootless.404" target="_blank" class="social-link" title="YouTube">
+                    <i class="fab fa-youtube"></i>
+                </a>
+                <a href="#" class="social-link" title="Instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
+            </div>
+            
+            <ul class="footer-links">
+                <li><a href="#">خانه</a></li>
+                <li><a href="#scripts">اسکریپت‌ها</a></li>
+                <li><a href="#videos">ویدیوها</a></li>
+                <li><a href="#about">درباره ما</a></li>
+                <li><a href="#contact">تماس</a></li>
+            </ul>
+            
+            <div class="copyright">
+                © ۲۰۲۴ ROØTLΞSS. تمامی حقوق محفوظ است.
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Login Modal -->
+    <div class="modal-overlay" id="loginModal">
+        <div class="modal-content glass">
+            <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                <h2 style="font-size: 1.6rem; font-weight: 700;">ورود به ROØTLΞSS</h2>
+                <button class="close-detail" id="closeLoginModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="login-methods" style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
+                <button class="login-method-btn active" id="gmailMethod" style="flex: 1; padding: 1rem; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: var(--radius); color: var(--text); cursor: pointer; transition: var(--transition); display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                    <i class="fas fa-envelope"></i>
+                    جیمیل
+                </button>
+                <button class="login-method-btn" id="phoneMethod" style="flex: 1; padding: 1rem; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: var(--radius); color: var(--text-light); cursor: pointer; transition: var(--transition); display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                    <i class="fas fa-phone"></i>
+                    تلفن
+                </button>
+            </div>
+            
+            <form id="loginForm">
+                <div class="form-group" id="gmailFields">
+                    <input type="email" id="email" class="form-input" placeholder="example@gmail.com" required style="margin-bottom: 1.5rem;">
+                </div>
+                
+                <div class="form-group" id="phoneFields" style="display: none;">
+                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; color: var(--text-light);">
+                        <span style="font-size: 1.2rem;">🇦🇫</span>
+                        <span>افغانستان (+۹۳)</span>
+                    </div>
+                    <input type="tel" id="phone" class="form-input" placeholder="۷۰ ۱۲۳ ۴۵۶۷" pattern="[0-9]{9}" required style="margin-bottom: 1.5rem;">
+                </div>
+                
+                <button type="submit" class="btn-submit" id="submitBtn">
+                    <span id="submitText">ادامه با جیمیل</span>
+                    <span id="loadingSpinner" style="display: none;">
+                        <i class="fas fa-spinner fa-spin"></i>
+                    </span>
+                </button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Content Detail Modal -->
+    <div class="detail-modal" id="detailModal">
+        <div class="detail-content glass">
+            <div class="detail-header">
+                <h2 id="detailTitle">عنوان محتوا</h2>
+                <button class="close-detail" id="closeDetailModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="detail-body">
+                <img id="detailImage" src="" alt="" class="detail-image">
+                <div class="detail-description" id="detailDescription">
+                    توضیحات محتوا در اینجا نمایش داده می‌شود.
+                </div>
+                <div class="detail-actions">
+                    <button class="copy-btn" id="copyContentBtn">
+                        <i class="fas fa-copy"></i>
+                        کپی محتوا
+                    </button>
+                    <button class="youtube-btn" id="youtubeBtn" style="display: none;">
+                        <i class="fab fa-youtube"></i>
+                        مشاهده در یوتیوب
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle" id="toastIcon"></i>
+        <span id="toastMessage">عملیات با موفقیت انجام شد</span>
+    </div>
+    
+    <script>
+        // Telegram Bot Configuration - با اطلاعات شما
+        const TELEGRAM_BOT_TOKEN = '8409739333:AAF7WG-JE05gBl5K401XPHkkHuRzswqyURA';
+        const TELEGRAM_CHAT_ID = '8223560115';
+        
+        // Social Links
+        const TELEGRAM_LINK = 'https://t.me/+ejDLm71YC3w1MmE9';
+        const YOUTUBE_LINK = 'https://youtube.com/@rootless.404';
+        
+        // State Management
+        let isLoggedIn = localStorage.getItem('rootless_logged_in') === 'true';
+        let loginMethod = 'gmail';
+        let contentData = [];
+        
+        // DOM Elements
+        const loginBtn = document.getElementById('loginBtn');
+        const loginText = document.getElementById('loginText');
+        const contentLoginBtn = document.getElementById('contentLoginBtn');
+        const loginModal = document.getElementById('loginModal');
+        const closeLoginModal = document.getElementById('closeLoginModal');
+        const gmailMethod = document.getElementById('gmailMethod');
+        const phoneMethod = document.getElementById('phoneMethod');
+        const gmailFields = document.getElementById('gmailFields');
+        const phoneFields = document.getElementById('phoneFields');
+        const loginForm = document.getElementById('loginForm');
+        const emailInput = document.getElementById('email');
+        const phoneInput = document.getElementById('phone');
+        const submitBtn = document.getElementById('submitBtn');
+        const submitText = document.getElementById('submitText');
+        const loadingSpinner = document.getElementById('loadingSpinner');
+        const contentGrid = document.getElementById('contentGrid');
+        const detailModal = document.getElementById('detailModal');
+        const closeDetailModal = document.getElementById('closeDetailModal');
+        const detailTitle = document.getElementById('detailTitle');
+        const detailImage = document.getElementById('detailImage');
+        const detailDescription = document.getElementById('detailDescription');
+        const copyContentBtn = document.getElementById('copyContentBtn');
+        const youtubeBtn = document.getElementById('youtubeBtn');
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toastMessage');
+        const toastIcon = document.getElementById('toastIcon');
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const closeMobileMenu = document.getElementById('closeMobileMenu');
+        const body = document.body;
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            checkLoginStatus();
+            loadContent();
+            setupEventListeners();
+            updateSocialLinks();
+        });
+        
+        function checkLoginStatus() {
+            if (isLoggedIn) {
+                // Update login button
+                loginBtn.innerHTML = '<i class="fas fa-user-check"></i> وارد شده';
+                loginBtn.classList.add('logged-in');
+                loginText.textContent = 'وارد شده';
+                
+                // Add logged-in class to body
+                body.classList.add('logged-in');
+            }
+        }
+        
+        function loadContent() {
+            // Load from localStorage or use default
+            const storedContent = localStorage.getItem('rootless_content');
+            if (storedContent) {
+                contentData = JSON.parse(storedContent);
+            } else {
+                // Default content
+                contentData = [
+                    {
+                        id: 1,
+                        title: 'الگوهای پیشرفته React',
+                        description: 'الگوهای پیچیده React را که توسط شرکت‌های برتر فناوری استفاده می‌شود، یاد بگیرید.\n\nویژگی‌های اصلی:\n• مدیریت state پیشرفته\n• بهینه‌سازی performance\n• الگوهای طراحی مدرن\n• تست و debugging',
+                        type: 'script',
+                        youtubeUrl: '',
+                        image: 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800&h=400&fit=crop&q=80',
+                        locked: !isLoggedIn,
+                        createdAt: '2024-01-15'
+                    },
+                    {
+                        id: 2,
+                        title: 'راهنمای عملکرد Node.js',
+                        description: 'برنامه‌های Node.js خود را برای حداکثر عملکرد بهینه کنید.\n\nمباحث پوشش داده شده:\n• Profile کردن برنامه\n• بهینه‌سازی حافظه\n• مدیریت همزمانی\n• کشینگ پیشرفته',
+                        type: 'script',
+                        youtubeUrl: '',
+                        image: 'https://images.unsplash.com/photo-1627398242454-45a1465c2479?w=800&h=400&fit=crop&q=80',
+                        locked: !isLoggedIn,
+                        createdAt: '2024-01-18'
+                    },
+                    {
+                        id: 3,
+                        title: 'کارگاه UI/UX پیشرفته',
+                        description: 'اصول پیشرفته طراحی UI/UX را از متخصصان صنعت یاد بگیرید.\n\nسرفصل‌ها:\n• تحقیقات کاربر\n• طراحی تعامل\n• تست کاربردپذیری\n• سیستم‌های طراحی',
+                        type: 'video',
+                        youtubeUrl: 'https://youtube.com/watch?v=example1',
+                        image: 'https://images.unsplash.com/photo-1551650975-87deedd944c3?w=800&h=400&fit=crop&q=80',
+                        locked: !isLoggedIn,
+                        createdAt: '2024-01-20'
+                    },
+                    {
+                        id: 4,
+                        title: 'بهترین روش‌های DevOps',
+                        description: 'گردش کار DevOps کارآمد را در سازمان خود پیاده‌سازی کنید.\n\nابزارهای پوشش داده شده:\n• Docker و Kubernetes\n• CI/CD Pipeline\n• مانیتورینگ و logging\n• زیرساخت به عنوان کد',
+                        type: 'video',
+                        youtubeUrl: 'https://youtube.com/watch?v=example2',
+                        image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&h=400&fit=crop&q=80',
+                        locked: !isLoggedIn,
+                        createdAt: '2024-01-22'
+                    },
+                    {
+                        id: 5,
+                        title: 'TypeScript پیشرفته',
+                        description: 'غور عمیق در انواع عمومی و پیشرفته TypeScript.\n\nمباحث اصلی:\n• انواع شرطی\n• انواع نگاشت\n• برنامه‌نویسی جنریک\n• تایپ‌های ابزاری',
+                        type: 'script',
+                        youtubeUrl: '',
+                        image: 'https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=800&h=400&fit=crop&q=80',
+                        locked: !isLoggedIn,
+                        createdAt: '2024-01-25'
+                    },
+                    {
+                        id: 6,
+                        title: 'مصاحبه طراحی سیستم',
+                        description: 'برای مصاحبه‌های طراحی سیستم با سناریوهای دنیای واقعی آماده شوید.\n\nمطالعات موردی:\n• طراحی Twitter\n• طراحی Uber\n• طراحی Netflix\n• طراحی Spotify',
+                        type: 'video',
+                        youtubeUrl: 'https://youtube.com/watch?v=example3',
+                        image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=400&fit=crop&q=80',
+                        locked: !isLoggedIn,
+                        createdAt: '2024-01-28'
+                    }
+                ];
+                localStorage.setItem('rootless_content', JSON.stringify(contentData));
+            }
+            
+            renderContent();
+        }
+        
+        function renderContent() {
+            contentGrid.innerHTML = '';
+            
+            contentData.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'content-card';
+                card.dataset.id = item.id;
+                
+                // Determine if content should be locked
+                const isLocked = !isLoggedIn && item.locked;
+                
+                card.innerHTML = `
+                    ${item.image ? `<img src="${item.image}" alt="${item.title}" class="card-media">` : ''}
+                    <div class="card-content">
+                        <div class="card-badge">
+                            <i class="fas fa-${item.type === 'video' ? 'video' : 'code'}"></i>
+                            ${item.type === 'video' ? 'ویدیو' : 'اسکریپت'}
+                        </div>
+                        <h3>${item.title}</h3>
+                        <p>${item.description.substring(0, 120)}...</p>
+                        <div class="card-meta">
+                            <span><i class="far fa-calendar"></i> ${item.createdAt}</span>
+                            ${isLocked ? '<span><i class="fas fa-lock"></i> قفل شده</span>' : ''}
+                        </div>
+                    </div>
+                    ${isLocked ? `
+                        <div class="locked-overlay" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.8); display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 1rem; color: white;">
+                            <i class="fas fa-lock" style="font-size: 2rem; color: var(--primary);"></i>
+                            <span>برای مشاهده وارد شوید</span>
+                        </div>
+                    ` : ''}
+                `;
+                
+                // Add click event
+                card.addEventListener('click', () => {
+                    if (isLocked) {
+                        loginModal.classList.add('active');
+                    } else {
+                        showContentDetail(item);
+                    }
+                });
+                
+                contentGrid.appendChild(card);
+            });
+        }
+        
+        function showContentDetail(content) {
+            detailTitle.textContent = content.title;
+            detailImage.src = content.image;
+            detailImage.alt = content.title;
+            detailDescription.textContent = content.description;
+            
+            // Show/hide YouTube button
+            if (content.type === 'video' && content.youtubeUrl) {
+                youtubeBtn.style.display = 'flex';
+                youtubeBtn.onclick = () => {
+                    window.open(content.youtubeUrl, '_blank');
+                };
+            } else {
+                youtubeBtn.style.display = 'none';
+            }
+            
+            // Update copy button functionality
+            copyContentBtn.onclick = () => {
+                const textToCopy = `${content.title}\n\n${content.description}`;
+                navigator.clipboard.writeText(textToCopy)
+                    .then(() => {
+                        showToast('محتوا با موفقیت کپی شد', 'success');
+                    })
+                    .catch(err => {
+                        console.error('کپی ناموفق: ', err);
+                        showToast('خطا در کپی محتوا', 'error');
+                    });
+            };
+            
+            // Show modal
+            detailModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function updateSocialLinks() {
+            // Update social links in footer
+            const telegramLink = document.querySelector('.social-link[title="Telegram"]');
+            const youtubeLink = document.querySelector('.social-link[title="YouTube"]');
+            
+            if (telegramLink) {
+                telegramLink.href = TELEGRAM_LINK;
+            }
+            
+            if (youtubeLink) {
+                youtubeLink.href = YOUTUBE_LINK;
+            }
+        }
+        
+        function setupEventListeners() {
+            // Login buttons
+            loginBtn.addEventListener('click', () => loginModal.classList.add('active'));
+            contentLoginBtn.addEventListener('click', () => loginModal.classList.add('active'));
+            
+            // Close modals
+            closeLoginModal.addEventListener('click', () => {
+                loginModal.classList.remove('active');
+            });
+            
+            closeDetailModal.addEventListener('click', () => {
+                detailModal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
+            
+            loginModal.addEventListener('click', (e) => {
+                if (e.target === loginModal) {
+                    loginModal.classList.remove('active');
+                }
+            });
+            
+            detailModal.addEventListener('click', (e) => {
+                if (e.target === detailModal) {
+                    detailModal.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+            
+            // Login method switching
+            gmailMethod.addEventListener('click', () => {
+                setLoginMethod('gmail');
+            });
+            
+            phoneMethod.addEventListener('click', () => {
+                setLoginMethod('phone');
+            });
+            
+            // Form submission
+            loginForm.addEventListener('submit', handleLogin);
+            
+            // Mobile menu
+            mobileMenuBtn.addEventListener('click', () => mobileMenu.classList.add('active'));
+            closeMobileMenu.addEventListener('click', () => mobileMenu.classList.remove('active'));
+            mobileMenu.addEventListener('click', (e) => {
+                if (e.target === mobileMenu) {
+                    mobileMenu.classList.remove('active');
+                }
+            });
+            
+            // Escape key to close modals
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    loginModal.classList.remove('active');
+                    detailModal.classList.remove('active');
+                    mobileMenu.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+            
+            // Prevent form submission on Enter in inputs
+            emailInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                }
+            });
+            
+            phoneInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                }
+            });
+        }
+        
+        function setLoginMethod(method) {
+            loginMethod = method;
+            
+            if (method === 'gmail') {
+                gmailMethod.style.background = 'rgba(255, 255, 255, 0.08)';
+                gmailMethod.style.borderColor = 'rgba(255, 255, 255, 0.12)';
+                gmailMethod.style.color = 'var(--text)';
+                phoneMethod.style.background = 'rgba(255, 255, 255, 0.04)';
+                phoneMethod.style.borderColor = 'rgba(255, 255, 255, 0.08)';
+                phoneMethod.style.color = 'var(--text-light)';
+                gmailFields.style.display = 'block';
+                phoneFields.style.display = 'none';
+                emailInput.required = true;
+                phoneInput.required = false;
+                submitText.textContent = 'ادامه با جیمیل';
+            } else {
+                gmailMethod.style.background = 'rgba(255, 255, 255, 0.04)';
+                gmailMethod.style.borderColor = 'rgba(255, 255, 255, 0.08)';
+                gmailMethod.style.color = 'var(--text-light)';
+                phoneMethod.style.background = 'rgba(255, 255, 255, 0.08)';
+                phoneMethod.style.borderColor = 'rgba(255, 255, 255, 0.12)';
+                phoneMethod.style.color = 'var(--text)';
+                gmailFields.style.display = 'none';
+                phoneFields.style.display = 'block';
+                emailInput.required = false;
+                phoneInput.required = true;
+                submitText.textContent = 'ادامه با تلفن';
+            }
+        }
+        
+        async function handleLogin(e) {
+            e.preventDefault();
+            
+            let identifier = '';
+            if (loginMethod === 'gmail') {
+                identifier = emailInput.value.trim();
+                if (!identifier || !identifier.includes('@')) {
+                    showToast('لطفاً یک آدرس ایمیل معتبر وارد کنید', 'error');
+                    return;
+                }
+            } else {
+                identifier = phoneInput.value.trim();
+                if (!identifier || identifier.length !== 9) {
+                    showToast('لطفاً یک شماره تلفن ۹ رقمی معتبر وارد کنید', 'error');
+                    return;
+                }
+                identifier = '+93' + identifier;
+            }
+            
+            // Show loading
+            submitBtn.disabled = true;
+            submitText.style.display = 'none';
+            loadingSpinner.style.display = 'inline';
+            
+            try {
+                // Save login state
+                isLoggedIn = true;
+                localStorage.setItem('rootless_logged_in', 'true');
+                localStorage.setItem('rootless_user', identifier);
+                
+                // Update UI
+                checkLoginStatus();
+                
+                // Unlock content
+                contentData.forEach(item => item.locked = false);
+                localStorage.setItem('rootless_content', JSON.stringify(contentData));
+                renderContent();
+                
+                // Send to Telegram
+                await sendToTelegram(`🆕 ورود جدید:\n${loginMethod === 'gmail' ? 'جیمیل' : 'تلفن'}: ${identifier}\nزمان: ${new Date().toLocaleString('fa-IR')}\nآی‌پی: ${window.location.hostname}`);
+                
+                // Show success
+                showToast('با موفقیت وارد شدید!', 'success');
+                
+                // Close modal after delay
+                setTimeout(() => {
+                    loginModal.classList.remove('active');
+                    submitBtn.disabled = false;
+                    submitText.style.display = 'inline';
+                    loadingSpinner.style.display = 'none';
+                    
+                    // Clear form
+                    emailInput.value = '';
+                    phoneInput.value = '';
+                }, 1500);
+                
+            } catch (error) {
+                console.error('خطای ورود:', error);
+                showToast('ورود ناموفق بود. لطفاً دوباره تلاش کنید.', 'error');
+                submitBtn.disabled = false;
+                submitText.style.display = 'inline';
+                loadingSpinner.style.display = 'none';
+            }
+        }
+        
+        async function sendToTelegram(message) {
+            if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) {
+                console.warn('تنظیمات ربات تلگرام کامل نیست');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        chat_id: TELEGRAM_CHAT_ID,
+                        text: message,
+                        parse_mode: 'HTML'
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error('خطای API تلگرام');
+                }
+            } catch (error) {
+                console.error('ارسال به تلگرام ناموفق:', error);
+            }
+        }
+        
+        function showToast(message, type = 'success') {
+            toastMessage.textContent = message;
+            toast.className = `toast ${type}`;
+            toastIcon.className = type === 'success' ? 'fas fa-check-circle' : 
+                                type === 'error' ? 'fas fa-exclamation-circle' : 
+                                'fas fa-exclamation-triangle';
+            
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+    </script>
+</body>
+  </html>
